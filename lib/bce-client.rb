@@ -1,0 +1,7 @@
+require 'bce_client/errors'
+require 'bce_client/rpc'
+require 'bce_client/address'
+require 'bce_client/block'
+require 'bce_client/transaction'
+require 'bce_client/client'
+require 'bce_client/version'
