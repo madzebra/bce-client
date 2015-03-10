@@ -16,22 +16,18 @@ module BceClient
     end
 
     def decode
-      blk = getblock
-      return nil if blk.nil?
-      blk
+      getblock
     end
 
     def decode_with_tx
       blk = getblock
-      return nil if blk.nil?
+      return blk if blk.empty? # otherwise decode all transactions
       blk['tx'] = blk['tx'].map { |tx| Transaction.new(tx, @rpc).decode blk }
       blk
     end
 
     def valid?
-      blk = getblock
-      return false if blk.nil?
-      true
+      !getblock.empty?
     end
 
     private
@@ -44,7 +40,7 @@ module BceClient
         @rpc.getblock @block_hash
       end
     rescue BceClient::JSONRPCError
-      nil
+      []
     end
 
     def valid_block_hash?(hash)

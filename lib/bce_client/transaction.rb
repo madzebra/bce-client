@@ -6,8 +6,8 @@ module BceClient
     end
 
     def decode(tx_block = nil)
-      tx = get_tx
-      return nil if tx.nil?
+      tx = gettransaction
+      return tx if tx.empty?
       blk = tx_block.nil? ? @rpc.getblock(tx['blockhash']) : tx_block
       tx['type']    = block_type blk
       tx['inputs']  = parse_inputs tx, blk
@@ -16,18 +16,16 @@ module BceClient
     end
 
     def valid?
-      tx = get_tx
-      return false if tx.nil?
-      true
+      !gettransaction.empty?
     end
 
     private
 
-    def get_tx
-      return nil unless valid_hash?
+    def gettransaction
+      return [] unless valid_hash?
       @rpc.gettransaction @txid
     rescue BceClient::JSONRPCError
-      nil
+      []
     end
 
     def valid_hash?

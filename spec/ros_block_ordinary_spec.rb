@@ -20,7 +20,7 @@ describe 'ROS Ordinary Block' do
   end
 
   context 'prevhash of block' do
-    hash ='761395b3192e48794727c914d8e7ac3ab9910dd38bf915f2a3e9e4d595db4aa7'
+    hash = '761395b3192e48794727c914d8e7ac3ab9910dd38bf915f2a3e9e4d595db4aa7'
     it { expect(block['previousblockhash']).to eq(hash) }
   end
 

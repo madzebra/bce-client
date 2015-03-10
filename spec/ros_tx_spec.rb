@@ -17,4 +17,9 @@ describe 'ROS Transactions' do
     txid = 'BOO'
     it { expect(client.transaction(txid).valid?).to be false }
   end
+
+  context 'dumb txid value' do
+    txid = 'BOO'
+    it { expect(client.transaction(txid).decode).to be_empty }
+  end
 end
