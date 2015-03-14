@@ -21,6 +21,11 @@ describe 'ROS Blocks' do
     it { expect(client.block(hash).valid?).to be false }
   end
 
+  context 'validity of dumb blockhash' do
+    hash = 'RRg7XA7SE7GGw7AfJ5P5ef8DYda3qgF36a'
+    it { expect(client.block(hash).valid?).to be false }
+  end
+
   context 'validity of block num' do
     it { expect(client.block(1_000_000).valid?).to be false }
   end

@@ -33,7 +33,7 @@ module BceClient
     private
 
     def getblock
-      return nil if @block_hash.nil?
+      return [] if @block_hash.nil?
       if @block_hash.is_a? Integer
         @rpc.getblockbynumber @block_hash
       else
