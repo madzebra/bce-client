@@ -22,7 +22,7 @@ module BceClient
     end
 
     def money_supply
-      @money_supply ||= money_supply_info
+      money_supply_info
     end
 
     private
