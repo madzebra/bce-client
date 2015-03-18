@@ -20,9 +20,9 @@ module BceClient
     end
 
     def decode_with_tx
-      blk = getblock
-      return blk if blk.empty? # otherwise decode all transactions
-      blk['tx'] = blk['tx'].map { |tx| Transaction.new(tx, @rpc).decode blk }
+      blk = getblock true
+      return blk if blk.empty?
+      blk['tx'] = blk['tx'].map { |tx| TransactionParser.new(tx).decode blk }
       blk
     end
 
@@ -32,12 +32,12 @@ module BceClient
 
     private
 
-    def getblock
+    def getblock(txinfo = false)
       return [] if @block_hash.nil?
       if @block_hash.is_a? Integer
-        @rpc.getblockbynumber @block_hash
+        @rpc.getblockbynumber @block_hash, txinfo
       else
-        @rpc.getblock @block_hash
+        @rpc.getblock @block_hash, txinfo
       end
     rescue BceClient::JSONRPCError
       []
