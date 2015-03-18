@@ -8,7 +8,7 @@ module BceClient
     def decode(tx_block = nil)
       tx = gettransaction
       return tx if tx.empty?
-      blk = tx_block.nil? ? @rpc.getblock(tx['blockhash']) : tx_block
+      blk = tx_block.nil? ? Block.new(tx['blockhash'], @rpc).decode : tx_block
 
       parser = TransactionParser.new tx, @rpc
       parser.decode blk
