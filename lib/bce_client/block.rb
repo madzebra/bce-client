@@ -22,7 +22,7 @@ module BceClient
     def decode_with_tx
       blk = getblock true
       return blk if blk.empty?
-      blk['tx'] = blk['tx'].map { |tx| TransactionParser.new(tx).decode blk }
+      blk['tx'] = blk['tx'].map { |tx| TransactionParser.new(tx, @rpc).decode blk }
       blk
     end
 

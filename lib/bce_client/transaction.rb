@@ -10,7 +10,7 @@ module BceClient
       return tx if tx.empty?
       blk = tx_block.nil? ? @rpc.getblock(tx['blockhash']) : tx_block
 
-      parser = TransactionParser.new tx
+      parser = TransactionParser.new tx, @rpc
       parser.decode blk
     end
 

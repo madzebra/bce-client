@@ -1,7 +1,8 @@
 module BceClient
   class TransactionParser
-    def initialize(tx)
+    def initialize(tx, rpc)
       @tx = tx
+      @rpc = rpc
     end
 
     def decode(blk)
