@@ -1,12 +1,10 @@
 module BceClient
   class Block
     def initialize(block_hash, rpc)
-      @rpc = rpc
       @block_hash = nil
-      unless block_hash.nil?
-        @block_hash = block_hash.to_i if valid_block_num? block_hash.to_s
-        @block_hash = block_hash      if valid_block_hash? block_hash.to_s
-      end
+      @rpc = rpc
+      @block_hash = block_hash.to_i if valid_block_num? block_hash.to_s
+      @block_hash = block_hash      if valid_block_hash? block_hash.to_s
     end
 
     def count
@@ -22,7 +20,7 @@ module BceClient
     def decode_with_tx
       blk = getblock true
       return blk if blk.empty?
-      blk['tx'] = blk['tx'].map { |tx| TransactionParser.new(tx, @rpc).decode blk }
+      blk['tx'].map! { |tx| TransactionParser.new(tx, @rpc).decode blk }
       blk
     end
 
