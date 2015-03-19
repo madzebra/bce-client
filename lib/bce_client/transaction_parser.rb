@@ -32,10 +32,7 @@ module BceClient
           prevtx = @rpc.gettransaction txin['txid']
           prevout_n = txin['vout'].to_i
           prevout = prevtx['vout'][prevout_n]
-          {
-            'value' => prevout['value'],
-            'address' => prevout['scriptPubKey']['addresses'][0]
-          }
+          txout_hash prevout
         end
       else
         [{ 'address' => address_type(blk), 'value' => blk['mint'] }]
@@ -47,13 +44,16 @@ module BceClient
         [{ 'address' => 'stake', 'value' => blk['mint'] }]
       else
         tx['vout'].map do |txout|
-          {
-            'value' => txout['value'],
-            'address' => txout['scriptPubKey']['addresses'][0]
-          } if txout['scriptPubKey']['type'] != 'nonstandard'
+          txout_hash(txout) if txout['scriptPubKey']['type'] != 'nonstandard'
         end.compact
       end
     end
 
+    def txout_hash(txout)
+      {
+        'value' => txout['value'],
+        'address' => txout['scriptPubKey']['addresses'][0]
+      }
+    end
   end
 end
