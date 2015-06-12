@@ -25,6 +25,18 @@ module BceClient
       money_supply_info
     end
 
+    def network_info
+      @rpc.getinfo
+    rescue BceClient::JSONRPCError
+      nil
+    end
+
+    def network_peer_info
+      @rpc.getpeerinfo
+    rescue BceClient::JSONRPCError
+      nil
+    end
+
     private
 
     def money_supply_info
