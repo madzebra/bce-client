@@ -8,9 +8,8 @@ module BceClient
     end
 
     def count
-      @rpc.getblockcount.to_i
-    rescue BceClient::JSONRPCError
-      0
+      count = @rpc.getblockcount
+      count.nil? ? 0 : count.to_i
     end
 
     def decode
@@ -32,13 +31,12 @@ module BceClient
 
     def getblock(txinfo = false)
       return [] if @block_hash.nil?
-      if @block_hash.is_a? Integer
+      block = if @block_hash.is_a? Integer
         @rpc.getblockbynumber @block_hash, txinfo
       else
         @rpc.getblock @block_hash, txinfo
       end
-    rescue BceClient::JSONRPCError
-      []
+      block.nil? ? [] : block
     end
 
     def valid_block_hash?(hash)

@@ -1,4 +1,3 @@
-require 'bce_client/errors'
 require 'bce_client/rpc'
 require 'bce_client/address'
 require 'bce_client/block'

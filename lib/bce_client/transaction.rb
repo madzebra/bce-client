@@ -22,9 +22,8 @@ module BceClient
 
     def gettransaction
       return [] unless valid_hash?
-      @rpc.gettransaction @txid
-    rescue BceClient::JSONRPCError
-      []
+      tx = @rpc.gettransaction @txid
+      tx.nil? ? [] : tx
     end
 
     def valid_hash?

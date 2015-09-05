@@ -27,23 +27,17 @@ module BceClient
 
     def network_info
       @rpc.getinfo
-    rescue BceClient::JSONRPCError
-      nil
     end
 
     def network_peer_info
       @rpc.getpeerinfo
-    rescue BceClient::JSONRPCError
-      nil
     end
 
     private
 
     def money_supply_info
       info = @rpc.getinfo
-      info['moneysupply'].to_f
-    rescue BceClient::JSONRPCError
-      10**8.to_f
+      info.nil? ? 10**8.to_f : info['moneysupply'].to_f
     end
   end
 end

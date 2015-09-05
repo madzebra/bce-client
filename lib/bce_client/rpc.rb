@@ -8,12 +8,14 @@ module BceClient
       @uri = URI.parse(service_url)
     end
 
+    # returns hash with the result or nil
     def method_missing(name, *args)
       post_body = { 'method' => name, 'params' => args, 'id' => 'jsonrpc' }
       resp = JSON.parse(http_post_request(post_body.to_json))
-      raise BceClient::JSONRPCError, resp['error']['message'] if resp['error']
-      resp['result']
+      resp['error'] ? nil : resp['result']
     end
+
+    private
 
     def http_post_request(post_body)
       http    = Net::HTTP.new(@uri.host, @uri.port)
