@@ -30,7 +30,7 @@ module BceClient
     end
 
     def network_peer_info
-      @rpc.getpeerinfo || {}
+      @rpc.getpeerinfo || []
     end
 
     private
