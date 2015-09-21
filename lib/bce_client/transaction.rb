@@ -21,9 +21,9 @@ module BceClient
     private
 
     def gettransaction
-      return [] unless valid_hash?
+      return {} unless valid_hash?
       tx = @rpc.gettransaction @txid
-      tx.nil? ? [] : tx
+      tx.nil? ? {} : tx
     end
 
     def valid_hash?
