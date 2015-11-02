@@ -22,7 +22,8 @@ module BceClient
     end
 
     def money_supply
-      money_supply_info
+      info = @rpc.getinfo
+      info.nil? ? (10**10).to_f : info['moneysupply'].to_f
     end
 
     def network_info
@@ -34,10 +35,5 @@ module BceClient
     end
 
     private
-
-    def money_supply_info
-      info = @rpc.getinfo
-      info.nil? ? 10**8.to_f : info['moneysupply'].to_f
-    end
   end
 end
