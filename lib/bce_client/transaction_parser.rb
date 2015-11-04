@@ -1,5 +1,7 @@
 module BceClient
   class TransactionParser
+    DECODE_FILTER = %w(vin vout)
+
     def initialize(tx, rpc)
       @tx = tx
       @rpc = rpc
@@ -9,7 +11,7 @@ module BceClient
       @tx['type']    = block_type blk
       @tx['inputs']  = parse_inputs @tx, blk
       @tx['outputs'] = parse_outputs @tx, blk
-      @tx
+      @tx.reject { |k,_| DECODE_FILTER.include? k }
     end
 
     def block_type(blk)
