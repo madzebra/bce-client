@@ -32,10 +32,10 @@ module BceClient
     def getblock(txinfo = false)
       return {} if @block_hash.nil?
       block = if @block_hash.is_a? Integer
-        @rpc.getblockbynumber @block_hash, txinfo
-      else
-        @rpc.getblock @block_hash, txinfo
-      end
+                @rpc.getblockbynumber @block_hash, txinfo
+              else
+                @rpc.getblock @block_hash, txinfo
+              end
       block.nil? ? {} : block
     end
 

@@ -11,7 +11,7 @@ module BceClient
       @tx['type']    = block_type blk
       @tx['inputs']  = parse_inputs @tx, blk
       @tx['outputs'] = parse_outputs @tx, blk
-      @tx.reject { |k,_| DECODE_FILTER.include? k }
+      @tx.reject { |k, _| DECODE_FILTER.include? k }
     end
 
     def block_type(blk)
