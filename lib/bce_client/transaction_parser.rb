@@ -1,4 +1,5 @@
 module BceClient
+  # Transaction parser helper
   class TransactionParser
     DECODE_FILTER = %w(vin vout)
 
@@ -15,34 +16,42 @@ module BceClient
     end
 
     def block_type(blk)
-      result = 'BUG !!'
-      result = 'work' if blk['flags'].include? 'proof-of-work'
-      result = 'stake' if blk['flags'].include? 'proof-of-stake'
-      result
-    end
-
-    def address_type(blk)
-      result = 'BUG !!'
-      result = 'PoW Generation' if blk['flags'].include? 'proof-of-work'
-      result = 'PoS Generation' if blk['flags'].include? 'proof-of-stake'
-      result
-    end
-
-    def parse_inputs(tx, blk = nil)
-      if tx['vin'][0]['coinbase'].nil?
-        tx['vin'].map do |txin|
-          prevtx = @rpc.gettransaction txin['txid']
-          prevout_n = txin['vout'].to_i
-          prevout = prevtx['vout'][prevout_n]
-          txout_hash prevout
-        end
+      flags = blk['flags']
+      if flags.include? 'proof-of-work'
+        'work'
+      elsif flags.include? 'proof-of-stake'
+        'stake'
       else
-        [{ 'address' => address_type(blk), 'value' => blk['mint'] }]
+        'nonstandard'
       end
     end
 
-    def parse_outputs(tx, blk = nil)
-      if !tx['vin'][0]['coinbase'].nil? && block_type(blk) == 'stake'
+    def address_type(blk)
+      flags = blk['flags']
+      if flags.include? 'proof-of-work'
+        'PoW Generation'
+      elsif flags.include? 'proof-of-stake'
+        'PoS Generation'
+      else
+        'nonstandard'
+      end
+    end
+
+    def parse_inputs(tx, blk = {})
+      vin = tx['vin']
+      if vin[0]['coinbase']
+        [{ 'address' => address_type(blk), 'value' => blk['mint'] }]
+      else
+        vin.map do |txin|
+          prevtx = @rpc.gettransaction txin['txid']
+          prevout_n = txin['vout'].to_i
+          txout_hash prevtx['vout'][prevout_n]
+        end
+      end
+    end
+
+    def parse_outputs(tx, blk = {})
+      if tx['vin'][0]['coinbase'] && block_type(blk) == 'stake'
         [{ 'address' => 'stake', 'value' => blk['mint'] }]
       else
         tx['vout'].map do |txout|

@@ -1,5 +1,4 @@
 require 'bce_client/rpc'
-require 'bce_client/address'
 require 'bce_client/block'
 require 'bce_client/transaction'
 require 'bce_client/transaction_parser'

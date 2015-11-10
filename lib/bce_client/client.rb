@@ -1,4 +1,5 @@
 module BceClient
+  # Entry-point classs
   class Client
     def initialize(options = {})
       rpc_user = options[:username] || 'user'
@@ -19,11 +20,6 @@ module BceClient
 
     def transaction(txid)
       Transaction.new txid, @rpc
-    end
-
-    def money_supply
-      info = @rpc.getinfo
-      info.nil? ? (10**10).to_f : info['moneysupply'].to_f
     end
 
     def network_info

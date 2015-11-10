@@ -1,15 +1,9 @@
 module BceClient
+  # Block decoder
   class Block
-    def initialize(block_hash, rpc)
-      @block_hash = nil
+    def initialize(block_index, rpc)
+      @block_index = block_index
       @rpc = rpc
-      @block_hash = block_hash.to_i if valid_block_num? block_hash.to_s
-      @block_hash = block_hash      if valid_block_hash? block_hash.to_s
-    end
-
-    def count
-      count = @rpc.getblockcount
-      count.nil? ? 0 : count.to_i
     end
 
     def decode
@@ -23,28 +17,10 @@ module BceClient
       blk
     end
 
-    def valid?
-      !getblock.empty?
-    end
-
     private
 
     def getblock(txinfo = false)
-      return {} if @block_hash.nil?
-      block = if @block_hash.is_a? Integer
-                @rpc.getblockbynumber @block_hash, txinfo
-              else
-                @rpc.getblock @block_hash, txinfo
-              end
-      block.nil? ? {} : block
-    end
-
-    def valid_block_hash?(hash)
-      (hash.length == 64) && (hash =~ /[^\w]+/).nil?
-    end
-
-    def valid_block_num?(num)
-      (num.length < 8) && (num =~ /[^0-9]+/).nil?
+      @rpc.getblockbynumber(@block_index, txinfo) || {}
     end
   end
 end

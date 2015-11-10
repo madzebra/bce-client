@@ -3,6 +3,7 @@ require 'uri'
 require 'json'
 
 module BceClient
+  # RPC class
   class RPC
     def initialize(service_url)
       @uri = URI.parse(service_url)
