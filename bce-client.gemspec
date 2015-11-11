@@ -18,14 +18,10 @@ Gem::Specification.new do |spec|
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
-  spec.test_files    = spec.files.grep(/spec/)
   spec.require_paths = ['lib']
 
   spec.required_ruby_version = '>= 2.1'
   spec.add_runtime_dependency 'bundler', '~> 1.7'
   spec.add_runtime_dependency 'rake', '~> 10.0'
   spec.add_runtime_dependency 'json', '~> 1.8'
-
-  spec.add_development_dependency 'rspec', '~> 3.2'
-  spec.add_development_dependency 'webmock', '~> 1.20'
 end
