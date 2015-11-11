@@ -14,10 +14,6 @@ module BceClient
       Block.new block_hash, @rpc
     end
 
-    def transaction(txid)
-      Transaction.new txid, @rpc
-    end
-
     def network_info
       @rpc.getinfo || {}
     end
