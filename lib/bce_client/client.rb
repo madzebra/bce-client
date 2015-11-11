@@ -10,10 +10,6 @@ module BceClient
       @rpc = BceClient::RPC.new service_url
     end
 
-    def address(addr)
-      Address.new addr, @rpc
-    end
-
     def block(block_hash = nil)
       Block.new block_hash, @rpc
     end

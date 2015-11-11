@@ -7,20 +7,13 @@ module BceClient
     end
 
     def decode
-      getblock
-    end
-
-    def decode_with_tx
-      blk = getblock true
-      return blk if blk.empty?
-      blk['tx'].map! { |tx| TransactionParser.new(tx, @rpc).decode blk }
-      blk
-    end
-
-    private
-
-    def getblock(txinfo = false)
-      @rpc.getblockbynumber(@block_index, txinfo) || {}
+      blk = @rpc.getblockbynumber(@block_index, true)
+      if blk
+        blk['tx'].map! { |tx| TransactionParser.new(tx, @rpc).decode blk }
+        blk
+      else
+        {}
+      end
     end
   end
 end
