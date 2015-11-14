@@ -31,17 +31,10 @@ bce_client = BceClient::Client.new \
   host: '127.0.0.1',
   port: '19092'
 
-bce_client.address('foo').valid? # => false
+bce_client.block(1).decode_with_tx # => Array with block info + all decoded txs
 
-bce_client.block.count # => 80000
-bce_client.block(1).valid? # => true
-bce_client.block(1).decode # => Array ...
-bce_client.block(1).decode_with_tx # => Array ... of block info + all tx infos
-
-bce_client.transaction('baz').valid? # => false
-bce_client.transaction('baz').decode # => Array ...
-
-bce_client.money_supply # => 100000
+bce_client.network_info # => hash with getinfo content
+bce_client.network_peer_info # => Array of connected peers
 ```
 
 ## Contributing
